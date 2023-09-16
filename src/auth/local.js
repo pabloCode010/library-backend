@@ -1,45 +1,66 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const passport = require("passport");
+const User = require("../db/User");
+const LocalStrategy = require("passport-local").Strategy;
 
-const database = [{
-    username: "AlgorithmXplorer",
-    password: "89P4bL017",
-    role: "admin"
-}]; // datos iniciales para probar la funcionalidad
+const singInUser = async (req, username, password, done) => {
+  const user = await User.findOne({ username });
+  if (!user) {
+    return done(
+      null,
+      false,
+      req.flash("messageError", "Usuario No Encontrado")
+    );
+  } else if (user.password != password) {
+    return done(
+      null,
+      false,
+      req.flash("messageError", "Contraseña Incorrecta")
+    );
+  }
+  done(null, user);
+};
 
-passport.use("sign-in",new LocalStrategy({
+const signUpUser = async (req, username, password, done) => {
+  const findUser = await User.findOne({ username });
+
+  if (findUser) {
+    return done(
+      null,
+      false,
+      req.flash("messageError", "Usuario No Disponible")
+    );
+  }
+  const user = new User({ username, password });
+  await user.save();
+  done(null, user);
+};
+
+const signInStrategy = new LocalStrategy(
+  {
     usernameField: "username",
     passwordField: "password",
-    passReqToCallback: true
-},(req, username, password, done)=>{
-    const user = database.find(user => user.username === username);
-    if(!user){
-        return done(null, false, req.flash("messageError", "Usuario No Encontrado"));
-    }else if(user.password != password ){
-        return done(null, false, req.flash("messageError", "Contraseña Incorrecta"));
-    }
-    done(null,user);
-}));
+    passReqToCallback: true,
+  },
+  singInUser
+);
 
-passport.use("sign-up",new LocalStrategy({
+const singUpStrategy = new LocalStrategy(
+  {
     usernameField: "username",
     passwordField: "password",
-    passReqToCallback: true
-},(req, username, password, done)=>{
-    const findUser = database.find(user => user.username === username);
-    if(findUser){
-        return done(null, false, req.flash("messageError", "Usuario No Disponible"));
-    }
-    const user = { username, password, "role": "user" };
-    database.push(user);
-    done(null,user);
-}));
+    passReqToCallback: true,
+  },
+  signUpUser
+);
+
+passport.use("sign-in", signInStrategy);
+passport.use("sign-up", singUpStrategy);
 
 passport.serializeUser((user, done) => {
-    done(null, user.username);
+  done(null, user._id);
 });
 
-passport.deserializeUser((username, done) => {
-    const user = database.find(u => u.username === username);
-    done(null, user);
+passport.deserializeUser(async (_id, done) => {
+  const user = await User.findOne({ _id });
+  done(null, user);
 });

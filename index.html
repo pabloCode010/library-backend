@@ -1,13 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Subir Archivo</title>
+    <title>Formulario de envío de archivos</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 </head>
 <body>
-  <form action="http://localhost:3000/books/upload" method="POST" enctype="multipart/form-data">
-    <input type="file" name="filename">
-    <input type="submit" value="Subir Archivo">
-  </form>
+    <form action="http://localhost:3000/books/upload" method="POST" enctype="multipart/form-data">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title"><br>
+
+        <label for="correo">Author:</label>
+        <input type="text" id="author" name="author"><br>
+
+        <label for="correo">Genre:</label>
+        <input type="text" id="genre" name="genre"><br>
+
+        <label for="correo">Publication Year:</label>
+        <input type="text" id="publicationYear" name="publicationYear"><br>
+
+        <label for="correo">Description:</label>
+        <input type="text" id="description" name="description"><br>
+
+        <label for="correo">Img-URL:</label>
+        <input type="text" id="coverImageURL" name="coverImageURL"><br>
+
+        <label for="filename">Archivo:</label>
+        <input type="file" id="bookFile" name=bookFile"><br>
+
+        <input type="submit" value="Enviar">
+    </form>
 </body>
 </html>

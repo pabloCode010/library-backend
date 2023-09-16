@@ -4,6 +4,6 @@ const { uploadFile } = require("../controllers/books-files");
 
 const router = Router();
 
-router.post("/upload", upload.single("bookFile"), uploadFile);
+router.post("/upload", upload.single("book-file"), uploadFile);
 
 module.exports = router;

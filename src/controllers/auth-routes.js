@@ -1,4 +1,5 @@
 const passport = require("passport");
+const boom = require("@hapi/boom");
 
 function signInGet(req, res, next) {
   const errorMessage = req.flash("messageError")[0];
@@ -9,23 +10,20 @@ function signInGet(req, res, next) {
 function signInPost(req, res, next) {
   passport.authenticate("sign-in", (err, user, info) => {
     if (err) {
-      // Handle any errors
-      return next(err);
+      return next(boom.internal(err.message));
     }
     if (!user) {
       // Authentication failed, send an error response
-      const errorMessage = req.flash("messageError")[0];
-      console.log(errorMessage);
-      return res.status(401).json({ error: "Authentication failed" });
+      const messageError = req.flash("messageError")[0];
+      const error = boom.unauthorized(messageError);
+      return next(error);
     }
     // Authentication succeeded, send a success response
     req.logIn(user, (err) => {
       if (err) {
-        return next(err);
+        return next(boom.internal(err.message));
       }
-      return res
-        .status(200)
-        .json({ message: "Authentication succeeded", user: user });
+      res.status(200).json({ message: "Authentication succeeded", user: user });
     });
   })(req, res, next);
 }
@@ -38,18 +36,16 @@ function signUpPost(req, res, next) {
     }
     if (!user) {
       // Authentication failed, send an error response
-      const errorMessage = req.flash("messageError")[0];
-      console.log(errorMessage);
-      return res.status(401).json({ error: "Authentication failed" });
+      const messageError = req.flash("messageError")[0];
+      const error = boom.unauthorized(messageError);
+      return next(error);
     }
     // Authentication succeeded, send a success response
     req.logIn(user, (err) => {
       if (err) {
-        return next(err);
+        return next(boom.internal(err.message));
       }
-      return res
-        .status(200)
-        .json({ message: "Authentication succeeded", user: user });
+      return res.status(200).json({ message: "Authentication succeeded", user: user });
     });
   })(req, res, next);
 }

@@ -8,6 +8,7 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
 const connect = require('./src/db/connect');
+const handler = require('./src/err/handler');
 
 //.env file
 require("dotenv").config();
@@ -41,6 +42,8 @@ app.get("/hello", (req, res) => res.send("hello"));
 
 enroute(app);
 
+//errors
+app.use(handler);
 start();
 
 async function start(){

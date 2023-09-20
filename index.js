@@ -5,7 +5,6 @@ const port = process.env.PORT || 3000;
 const morgan = require('morgan');
 const enroute = require('./src/routes/enroute');
 const passport = require('passport');
-const flash = require('connect-flash');
 const session = require('express-session');
 const connect = require('./src/db/connect');
 const handler = require('./src/err/handler');
@@ -28,7 +27,6 @@ app.use(session({
     saveUninitialized: false
 }));
 
-app.use(flash()); // Agrega el middleware de connect-flash
 app.use(passport.initialize());
 app.use(passport.session());
 

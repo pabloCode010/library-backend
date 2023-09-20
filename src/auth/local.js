@@ -1,38 +1,38 @@
 const passport = require("passport");
-const User = require("../db/User");
+const boom = require("@hapi/boom");
 const LocalStrategy = require("passport-local").Strategy;
+const User = require("../db/User");
 
 const singInUser = async (req, username, password, done) => {
-  const user = await User.findOne({ username });
-  if (!user) {
-    return done(
-      null,
-      false,
-      req.flash("messageError", "Usuario No Encontrado")
-    );
-  } else if (user.password != password) {
-    return done(
-      null,
-      false,
-      req.flash("messageError", "Contraseña Incorrecta")
-    );
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return done(boom.unauthorized("user not exists"));
+    } else if (user.password != password) {
+      return done(boom.unauthorized("password error"));
+    }
+
+    done(null, user);
+  } catch (error) {
+    done(boom.internal(error.message));
   }
-  done(null, user);
 };
 
 const signUpUser = async (req, username, password, done) => {
-  const findUser = await User.findOne({ username });
+  try {
+    const findUser = await User.findOne({ username });
 
-  if (findUser) {
-    return done(
-      null,
-      false,
-      req.flash("messageError", "Usuario No Disponible")
-    );
+    if (findUser) {
+      return done(boom.unauthorized("user not free"));
+    }
+
+    const user = new User({ username, password });
+    await user.save();
+    done(null, user);
+  } catch (error) {
+    done(boom.internal(error.message));
   }
-  const user = new User({ username, password });
-  await user.save();
-  done(null, user);
 };
 
 const signInStrategy = new LocalStrategy(

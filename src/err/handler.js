@@ -1,11 +1,12 @@
-function handler(err, req, res, next){
-    console.error(err);
-    
-    if (err.isBoom){
-        const { statusCode } = err.output.payload;
-        return res.status(statusCode).json(err.output.payload);
+function handler(error, req, res, next){
+    console.error(error);
+
+    if (error.isBoom){
+        const { statusCode } = error.output.payload;
+        return res.status(statusCode).json(error.output.payload);
     }
-    res.status(500).json({"statusCode":500,"error":"Internal Server Error","message":"server side error"});
+    const statusCode = error.statusCode ? error.statusCode : 500;
+    res.status(statusCode).json({statusCode,"error":"Unknown Error","message": error.message});
 }
 
 module.exports = handler;

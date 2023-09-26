@@ -1,8 +1,10 @@
+const boom = require("@hapi/boom");
+
 function isAuthenticated(req, res, next){
     if (req.isAuthenticated()){
-        next();
+        return next();
     }
-    res.status(401).send("error");
+    next(boom.unauthorized("unauthenticated user"));
 }
 
 module.exports = isAuthenticated;

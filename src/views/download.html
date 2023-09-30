@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario de Redirección</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <!-- Agrega el enlace a Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Formulario de Descarga</h2>
+        <form action="http://localhost:3000/books/download" method="GET" target="_blank" class="text-center">
+            <div class="form-group">
+                <label for="url">Ingresa una URL:</label>
+                <input type="text" class="form-control" id="id" name="id" required placeholder="ID del libro">
+            </div>
+            <button type="submit" class="btn btn-primary">Descargar</button>
+        </form>
+    </div>
+
+    <!-- Agrega los scripts de Bootstrap JS (opcional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

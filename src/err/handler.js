@@ -1,5 +1,5 @@
 function handler(error, req, res, next){
-    console.error(error);
+    // console.error(error);
 
     if (error.isBoom){
         const { statusCode } = error.output.payload;

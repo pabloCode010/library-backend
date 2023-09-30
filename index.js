@@ -8,6 +8,7 @@ const passport = require('passport');
 const session = require('express-session');
 const connect = require('./src/db/connect');
 const handler = require('./src/err/handler');
+const routeNotFound = require('./src/middlewares/route-not-found');
 
 //.env file
 require("dotenv").config();
@@ -19,6 +20,7 @@ require("./src/auth/local");
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static("src/views"));
 
 //middlewares authentication
 app.use(session({
@@ -30,17 +32,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
-    console.log("authenticate:", req.user);
-    next();
-});
-
 //routes
-app.get("/hello", (req, res) => res.send("hello"));
-
 enroute(app);
 
 //errors
+app.use(routeNotFound);
 app.use(handler);
 start();
 

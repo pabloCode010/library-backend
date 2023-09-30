@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario de envío de archivos</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <!-- Agrega el enlace a Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Estilos personalizados para la descripción y el formulario */
+        #description {
+            width: 100%;
+            max-width: 100%;
+            height: 150px; /* Ajusta la altura según tu preferencia */
+        }
+
+        .custom-form {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .form-title {
+            background-color: #f2f2f2; /* Fondo gris claro */
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px; /* Espacio adicional en la parte inferior del título */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="form-title">
+            <h2>Formulario de Envío de Archivos</h2>
+        </div>
+        <form action="http://localhost:3000/books/upload" method="POST" enctype="multipart/form-data" class="custom-form">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="title">Título:</label>
+                    <input type="text" class="form-control" id="title" name="title">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="author">Autor:</label>
+                    <input type="text" class="form-control" id="author" name="author">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="genre">Género:</label>
+                    <input type="text" class="form-control" id="genre" name="genre">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="publicationYear">Año de Publicación:</label>
+                    <input type="text" class="form-control" id="publicationYear" name="publicationYear">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description">Descripción:</label>
+                <textarea class="form-control" id="description" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="coverImageURL">URL de la Imagen de Portada:</label>
+                <input type="text" class="form-control" id="coverImageURL" name="coverImageURL">
+            </div>
+            <div class="form-group">
+                <label for="book-file">Archivo:</label>
+                <input type="file" class="form-control-file" id="book-file" name="book-file">
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+
+    <!-- Agrega los scripts de Bootstrap JS (opcional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

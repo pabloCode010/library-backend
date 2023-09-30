@@ -11,7 +11,7 @@ const logInCallBack = (res, next, user) => {
       "ID": user._id,
       "username": user.username
     }
-    res.status(200).json({ message: "Authentication succeeded", user: userData });
+    res.status(200).json({ message: "Successful authentication", user: userData });
   };
 };
 
@@ -43,7 +43,7 @@ async function createAdmin(req, res, next){
 
   const user = await User.findOne({ username });
   if (user){
-    return next(boom.unauthorized("user not free"))
+    return next(boom.unauthorized("Username not available"));
   }
   const newAdmin = await new User({ username, password, role: "admin" });
   await newAdmin.save();
@@ -51,7 +51,7 @@ async function createAdmin(req, res, next){
     "ID": newAdmin._id,
     "username": newAdmin.username
   }
-  res.status(200).json({ message: "administrator created", user: userData });
+  res.status(200).json({ message: "Administrator created", user: userData });
 }
 
 module.exports = {

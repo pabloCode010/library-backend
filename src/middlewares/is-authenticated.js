@@ -4,7 +4,7 @@ function isAuthenticated(req, res, next){
     if (req.isAuthenticated()){
         return next();
     }
-    next(boom.unauthorized("unauthenticated user"));
+    next(boom.unauthorized("Unauthenticated user"));
 }
 
 module.exports = isAuthenticated;

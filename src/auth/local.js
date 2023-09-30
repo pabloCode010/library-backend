@@ -8,9 +8,9 @@ const singInUser = async (req, username, password, done) => {
     const user = await User.findOne({ username });
 
     if (!user) {
-      return done(boom.unauthorized("user not exists"));
+      return done(boom.unauthorized(`The user "${username}" does not exist`));
     } else if (user.password != password) {
-      return done(boom.unauthorized("password error"));
+      return done(boom.unauthorized("Incorrect password"));
     }
 
     done(null, user);
@@ -24,7 +24,7 @@ const signUpUser = async (req, username, password, done) => {
     const findUser = await User.findOne({ username });
 
     if (findUser) {
-      return done(boom.unauthorized("user not free"));
+      return done(boom.unauthorized("Username not available"));
     }
 
     const user = new User({ username, password });

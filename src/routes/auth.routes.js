@@ -24,7 +24,7 @@ router
   );
 
 router
-  .route("/sign-up-admin")
+  .route("/create-admin")
   .post(
     isAuthenticated,
     isAdmin,
